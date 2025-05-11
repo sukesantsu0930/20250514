@@ -1,0 +1,164 @@
+20250514 雑メモ
+
+abstract，Introduction，Related work，Conclusion（summary）を読んでもらい，手法の説明，評価実験の詳細は必要なところだけを拾い読みして
+CFR
+教師ありファインチューニング
+複数人の研究，ヘッズアップでの研究
+LLM　 https://www.ijcai.org/proceedings/2024/0867?utm_source=chatgpt.com
+ゼロサムの不完全情報ゲームにおいて、自己対戦と軌跡フィードバックを通じてε最適戦略を学習する方法を提案しています。特に、情報セット構造を事前に知ることなく適応的に学習するアルゴリズムを紹介しています。https://proceedings.mlr.press/v202/fiegel23a?utm_source=chatgpt.com
+抽象化　ゲームが大きすぎて直接解けない場合、一般的な対応策は、より小さな抽象ゲーム（abstract game）**を解くことです。元のゲームをプレイするためには、元のゲームの状況と行動を抽象ゲームに翻訳します。
+このアプローチによって、プログラムはHUNLのようなゲームで推論することが可能になりますが、HUNLの10<sup>160</sup>の状況を約10<sup>14</sup>の抽象的な状況に圧縮することでそれを実現しています。この情報損失の結果として、これらのプログラムは人間のエキスパートプレイに遅れをとっている可能性が高いです。
+Libratus
+
+
+
+
+
+IIG imperfect information game
+不完全情報ゲームは、同様のサイズの完全情報ゲームよりも複雑な推論を必要とします
+ある特定の瞬間の正しい決定は、相手が保持しているプライベート情報（これは相手の過去の行動を通じて明らかになる）の確率分布に依存します
+しかし、その情報の明らかになり方は、相手が自分自身のプライベート情報について知っていること、そして自分の行動がそれをどのように明らかにするかに依存します。このような**再帰的な推論（recursive reasoning）が、完全情報ゲームで使用されるヒューリスティック探索手法のように、ゲーム状況を単独で簡単に推論できない理由です
+
+ポーカー麻雀は評価指標が多い
+ハゲタカなどは少ない
+
+AIVAT 不完全情報ゲームにおけるパフォーマンス評価の手法
+
+爆発的な情報空間　10^160
+
+以下は、**DeepStack** と **Libratus** の簡潔な比較まとめです：
+
+---
+
+ **Libratus**
+
+* **強さ・実績**：プロ4人に12万ハンドで圧勝、実戦での性能は最強クラス
+* **手法**：CFRベース、戦略抽象化＋エンドゲームソルバー
+* **特徴**：高性能だが大規模計算が必要、実装非公開
+
+---
+
+ **DeepStack**
+
+* **強さ・実績**：人間より強いがテスト規模は小さめ
+* **手法**：NNによる価値予測＋オンラインCFR（抽象化不要）
+* **特徴**：柔軟性と汎用性が高く、再現可能なオープン実装あり
+
+---
+
+### 🏁 **総合評価**
+
+* **ポーカー特化で最強を目指すなら → Libratus**
+* **研究・応用・再現性重視なら → DeepStack**
+
+
+
+PokerGPT: An End-to-End Lightweight Solver for Multi-Player Texas Hold’em via Large Language Model
+AlphaHoldem:　査読なし High-Performance Artifcial Intelligence for Heads-Up No-Limit Poker via End-to-End Reinforcement earning
+ハゲタカ　査読なし　https://www.jstage.jst.go.jp/article/pjsai/JSAI2022/0/JSAI2022_4E1GS201/_pdf/-char/ja
+日本人　https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10049064
+https://www.jair.org/index.php/jair/article/view/11844/26543
+https://www.mdpi.com/1099-4300/26/6/524
+CFR　https://proceedings.mlr.press/v202/fiegel23a/fiegel23a.pdf
+ポーカーでナッシュ均衡達成https://dl.acm.org/doi/pdf/10.1145/1284320.1284324
+信念状態　https://proceedings.mlr.press/v202/wang23p/wang23p.pdf
+大原先生　https://proceedings.mlr.press/v202/wei23d/wei23d.pdf
+ナッシュ均衡Computing Approximate Equilibria in Sequential Adversarial Games by Exploitability Descent
+ベイズの定理 Bayes' Bluff: Opponent Modelling in Poker
+Rebel　https://arxiv.org/pdf/2007.13544
+Libratus　追加
+
+
+
+ReBeL　Recursive Belief-based Learning
+
+不完全情報ゲームにおける深層学習と探索の組み合わせに関するもの
+隠された情報をすべて確率としてオープンにした「完全情報ゲーム」に変換して考える
+ゼロサムゲームにおいては，ナッシュ均衡は最適な戦略
+
+セルフプレイによる強化学習と探索のためのフレームワーク
+二人の zero sum game でナッシュ均衡
+完全情報ゲームでは Alphazero に似たアルゴリズムになる
+少ないドメイン知識で超人的なパフォーマンス
+
+不完全情報ゲームの難しさ
+アクションの価値が，選択される確率に依存する．アクションと観測のシーケンスからなる状態は，一意の価値にならない．
+
+「状態」の概念を拡張 全エージェントの確率的な信念分布,公共信念状態　PBS pubulic belief state
+
+
+deep stack
+
+情報非対称性に対処するための再帰的結論　相手の手札を考える，相手は自分の手札を考えてアクションする，その自分は相手の手札を考えて，，，
+計算を関連する決定に集中するための分解 サブツリー
+自己対局から学習される直観
+
+現在の公開状態における部分ゲームをその場で解く
+
+全体の戦略を維持しない，自身の手札の確率分布と相手の手札の期待値を追跡するだけ
+
+部分ゲームの深さを制限，それ以降は学習された価値関数（直観）で近似
+
+
+492 mbb/g　統計的に有意な差でプロに勝利　プロは50 mbb/g でかなりの差
+
+Exploitability　の最小化　LBRに勝利      
+
+
+
+Libratus
+
+部分ゲームも考えはするが，ゲーム全体としての戦略も計算，くそ強いが計算が膨大
+
+ブループリントを計算
+サブゲームの詳細戦略を具体化するアルゴリズム
+潜在的な弱点を修正する自己改良アルゴリズム
+
+プロとの対決 120,000 ハンドの対戦で決定的に勝利
+
+
+
+poker GPT（LLMベース）
+
+LLM を利用することで，複数人にも対応し，計算リソースを節約できた　説明可能性
+
+CFR（deep stackやlibratusなどにも使われている）はゲームツリーを圧縮してから反復計算を行う ナッシュ均衡戦略を近似
+問題点
+１．計算リソース，ストレージ消費
+２．多人数ゲームへの拡張が指数的に増加
+３．情報損失　ゲームツリーを圧縮したが故
+４．専門家が必要な点がボトルネック
+
+ゲームログから公共のカード，プレイヤーの行動をなどを抽出（情報フィルタリング）
+mbb/h の高いやつを学習し，弱いやつの行動を避ける（データ品質）
+few ではなく zero-shot で学習
+
+情報フィルタリングとデータ品質が性能に大きく影響、特に勝率の高いプレイヤーのデータでファインチューニングしたモデルが最高の性能を示す
+
+
+
+AlphaHoldem: Reinforcement Learning for Heads-Up Poker AI
+
+CFRを脱したい
+
+エンドツーエンド　順伝播のみを使い．反復プロセスを排除
+カード情報の抽象化を行っていない　多次元テンソル表現を設計　CNN
+損失関数が新しい　Trinal-Clip PPO損失関数
+K-Best Self-Play戦略といった技術貢献
+
+DeepStack に勝利　勝率，訓練時間，推論時間も
+
+データ公開中
+
+
+CFR,CFR2,
+
+もし最初から別の固定戦略を取っていたら、実際に取った戦略よりもどれだけ多くの期待効用（またはより少ない損失）を得られたかを測るもの，過去のプレイを振り返って「あの時こうしておけば良かった」という後悔の度合いを数値化
+後悔を反復的に最小化することで、プレイヤーの戦略が近似的な均衡に収束
+
+
+lossless ナッシュ均衡
+
+正確な均衡を見つけることは PPAD 困難
+損失のない抽象化を用いて，その小さくしたゲームでのナッシュ均衡を，元のゲームのナッシュ均衡に直接対応することが理論的に証明されている．
+
